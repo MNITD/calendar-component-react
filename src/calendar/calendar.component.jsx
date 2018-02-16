@@ -15,18 +15,16 @@ class Calendar extends React.Component {
         super();
 
         this.state = {
-            _choosen: {},
+            _chosen: {},
             _date: {}
         };
 
         this.state._date.now = new Date();
         this.state._date.month = this.state._date.now.getMonth(); //
         this.state._date.year = this.state._date.now.getFullYear();
-        this.state._choosen.month = this.state._date.month;
-        this.state._choosen.year = this.state._date.year;
-        this.state._choosen.firstDay =  this.getFirstDay(this.state._choosen.month, this.state._choosen.year);
-        console.log('choosen', this.state._choosen);
-
+        this.state._chosen.month = this.state._date.month;
+        this.state._chosen.year = this.state._date.year;
+        this.state._chosen.firstDay =  this.getFirstDay(this.state._chosen.month, this.state._chosen.year);
     }
 
     getDaysInMonth(month, year) {
@@ -38,24 +36,22 @@ class Calendar extends React.Component {
         return day === 0? 7: day;
     };
 
-    showNextMonth() {
-        let state = this.state;
-        state._choosen.month = (this.state._choosen.month + 1 > 11 ? 0 : this.state._choosen.month + 1);
-        state._choosen.year = state._choosen.month === 0? state._choosen.year + 1: state._choosen.year;
-        state._choosen.firstDay = this.getFirstDay(this.state._choosen.month, this.state._choosen.year);
+    updateChosen (month, year){
+        let state = this.state, firstDay = this.getFirstDay(month, year);
+        state._chosen = {month, year, firstDay};
         this.setState(state);
-        console.log('choosen', this.state._choosen);
+    }
 
+    showNextMonth() {
+        let month = (this.state._chosen.month + 1 > 11 ? 0 : this.state._chosen.month + 1);
+        let year = state._chosen.month === 0? state._chosen.year + 1: state._chosen.year;
+        this.updateChosen(month, year);
     };
 
     showPrevMonth() {
-        let state = this.state;
-        state._choosen.month = (this.state._choosen.month - 1 < 0 ? 11 : this.state._choosen.month - 1);
-        state._choosen.year = state._choosen.month === 11? state._choosen.year - 1: state._choosen.year;
-        state._choosen.firstDay = this.getFirstDay(this.state._choosen.month, this.state._choosen.year);
-        this.setState(state);
-        console.log('choosen', this.state._choosen);
-
+        let month =  (this.state._chosen.month - 1 < 0 ? 11 : this.state._chosen.month - 1);
+        let year = state._chosen.month === 11? state._chosen.year - 1: state._chosen.year;
+        this.updateChosen(month, year);
     };
 
     getHeader() {
@@ -64,7 +60,7 @@ class Calendar extends React.Component {
                 <div className="calendar__switcher">
                     <button className="calendar__switcher-toggle"
                             onClick={() => this.showPrevMonth()}>Prev</button>
-                    <span className="calendar__switcher-title">{months[this.state._choosen.month]}</span>
+                    <span className="calendar__switcher-title">{months[this.state._chosen.month]}</span>
                     <button className="calendar__switcher-toggle"
                             onClick={() => this.showNextMonth()}>Next</button>
                 </div>
@@ -82,24 +78,21 @@ class Calendar extends React.Component {
     };
 
     getPrevDays(){
-        let prevMonth = this.state._choosen.month - 1 > -1 ? this.state._choosen.month - 1 : 11;
-        let prevYear = prevMonth === 11?  this.state._choosen.year - 1 : this.state._choosen.year;
-        let prevDays = this.getDaysInMonth(prevMonth, prevYear);
-        console.log('prevDays', prevDays);
-        let prevDaysVisible = 7 - this.state._choosen.firstDay;
+        let prevMonth = this.state._chosen.month - 1 > -1 ? this.state._chosen.month - 1 : 11,
+            prevYear = prevMonth === 11?  this.state._chosen.year - 1 : this.state._chosen.year,
+            prevDays = this.getDaysInMonth(prevMonth, prevYear),
+            prevDaysVisible = 7 - this.state._chosen.firstDay;
 
         return new Array(prevDaysVisible).fill().map((item, index) => {
             prevDaysVisible--;
-            return <div className="calendar__day">
+            return <div className="calendar__day calendar__day--prev">
                 <span className="calendar__date">{prevDays - prevDaysVisible}</span>
             </div>;
         });
     }
 
     getDays() {
-        console.log(this.state._choosen.month, this.state._choosen.year);
-        let daysInMonth = this.getDaysInMonth(this.state._choosen.month, this.state._choosen.year);
-        console.log('daysInMonth', daysInMonth);
+        let daysInMonth = this.getDaysInMonth(this.state._chosen.month, this.state._chosen.year);
         return (
             <main className="calendar__table-main">
                 {this.getPrevDays()}
@@ -115,7 +108,7 @@ class Calendar extends React.Component {
     };
 
     render() {
-        return (<div className="calendar">
+        return (<div className="calendar calendar--center">
             {this.getHeader()}
             <main className="calendar__table">
                 {this.getWeekDays()}

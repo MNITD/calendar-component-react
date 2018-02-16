@@ -5,10 +5,22 @@
   max-width: 960px;
 }
 
+.calendar--center{
+  margin: auto;
+}
+
 .calendar__header{
   display: flex;
   justify-content: space-between;
   margin-bottom: 24px;
+}
+
+.calendar__switcher{
+  margin: 0 auto;
+}
+
+.calendar__switcher-title{
+  margin: 0 10px;
 }
 
 .calendar__table{
@@ -42,6 +54,15 @@
   border-right: solid 1px #e2e2e2;
   border-bottom: solid 1px #e2e2e2;
   position: relative;
+  color: #778188;
+}
+
+.calendar__day--prev{
+  color: #b6c1c8;
+}
+
+.calendar__day--today{
+
 }
 
 .calendar__day:nth-child(7n){
@@ -54,7 +75,6 @@
   top: 0;
   margin: 20px;
   font-size: 15px;
-  color: #778188;
 }
 
 
