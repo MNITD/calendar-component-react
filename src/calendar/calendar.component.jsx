@@ -7,6 +7,7 @@ import React from 'react';
 import './calendar.component.scss';
 
 const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sun', 'Sut'];
+const months  = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
 class Calendar extends React.Component {
 
@@ -33,7 +34,8 @@ class Calendar extends React.Component {
     };
 
     getFirstDay(month, year) {
-        return new Date(year, month, 1).getDay();
+        let day =  new Date(year, month, 1).getDay();
+        return day === 0? 7: day;
     };
 
     showNextMonth() {
@@ -62,7 +64,7 @@ class Calendar extends React.Component {
                 <div className="calendar__switcher">
                     <button className="calendar__switcher-toggle"
                             onClick={() => this.showPrevMonth()}>Prev</button>
-                    <span className="calendar__switcher-title">{this.state._choosen.month}</span>
+                    <span className="calendar__switcher-title">{months[this.state._choosen.month]}</span>
                     <button className="calendar__switcher-toggle"
                             onClick={() => this.showNextMonth()}>Next</button>
                 </div>
@@ -89,7 +91,7 @@ class Calendar extends React.Component {
         return new Array(prevDaysVisible).fill().map((item, index) => {
             prevDaysVisible--;
             return <div className="calendar__day">
-                <span className="calendar__date">{prevDays - prevDaysVisible - 2}</span>
+                <span className="calendar__date">{prevDays - prevDaysVisible}</span>
             </div>;
         });
     }
@@ -111,7 +113,6 @@ class Calendar extends React.Component {
             </main>
         );
     };
-
 
     render() {
         return (<div className="calendar">
