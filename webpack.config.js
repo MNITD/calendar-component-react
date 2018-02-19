@@ -3,15 +3,23 @@
  */
 const path = require("path");
 module.exports = {
-    entry: ["./src/index.jsx"],
+    entry: ["./src/index.js"],
     output: {
         path: path.resolve(__dirname, "build"),
         filename: "[name].js"
     },
+    watch: true,
+    watchOptions: {
+        aggregateTimeout: 300,
+        poll: 1000
+    },
+    devServer: {
+        inline: true
+    },
     module: {
         rules: [
             {
-                test: /\.jsx?$/,
+                test: /\.js$/,
                 exclude: /node_modules/,
                 use: {
                     loader: "babel-loader"
