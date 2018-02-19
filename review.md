@@ -6,5 +6,5 @@
 4. remove _ for private props
 5. rewirite state without changing init state
 6. simplyfy arrow func
-7 .model - array of all days  -> simple render
+7. model - array of all days  -> simple render
 8. scss extended
