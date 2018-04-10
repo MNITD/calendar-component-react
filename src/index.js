@@ -3,6 +3,6 @@
  */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Calendar from './calendar/calendar.component.js';
+import Calendar from './calendar/calendar.component.js`';
 
 ReactDOM.render(<Calendar/>, document.getElementById('root'));
